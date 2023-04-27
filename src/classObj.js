@@ -31,6 +31,7 @@ class gameboard{
     }
 }
 module.exports = { ship, gameboard};
+//export { ship, gameboard};
 /* 
 function Ship(length){
     this.length = length;

@@ -1,4 +1,7 @@
-const { Ship, Gameboard } = require('./classObj');
+const { ship, gameboard } = require('./classObj');
+//import { ship, gameboard } from './classObj.js';
+/* const game1 = new ship(5);
+console.log(game1); */
 // Game Dashboard Init
 let i = 0;
 while(i<100){
@@ -22,6 +25,7 @@ console.log(headerBtn);
 // ship length initialized
 let selectLength = 0;
 let shipType = undefined;
+let shipAxis = 'Horizontal';
 // adding event listeners to headerBtn
 for(let i = 0; i<= headerBtn.length-1;i++){
     headerBtn[i].addEventListener('click',exeBtn);
@@ -32,7 +36,8 @@ function exeBtn(e){
     console.log(e.srcElement.innerText);
     const headBtnType = e.srcElement.innerText;
     if(headBtnType === 'Vertical'){
-
+        e.srcElement.innerText = 'Horizontal';
+        shipAxis = 'Vertical';
     }else if(headBtnType === 'Carrier'){
         selectLength = 5;
         shipType = 'Carrier';
@@ -48,21 +53,36 @@ function exeBtn(e){
     }else if(headBtnType === 'Destroyer'){
         selectLength = 2;
         shipType = 'Destroyer';
+    }else if(headBtnType === 'Horizontal'){
+        e.srcElement.innerText = 'Vertical';
+        shipAxis = 'Horizontal';
     }else if(headBtnType === 'Start the game'){
         
     }
 }
 // targetPlayer event function
 function exeTargetPlayer(e){
-    console.log(e.srcElement.id);
+    //console.log(e.srcElement.id);
     const targetId = e.srcElement.id;
     let targetPos = document.querySelector(`#${targetId}`);//#06D6A0
+    let vertArray = undefined;
     if(selectLength!=0){
         //select the number-1 to the rigth
         for(let i = 0;i<=selectLength-1;i++){
-            targetPos.style.backgroundColor = '#06D6A0';
-            targetPos.setAttribute('class',shipType);
-            targetPos = targetPos.nextSibling;
+            if(shipAxis === 'Horizontal'){
+                targetPos.style.backgroundColor = '#06D6A0';
+                targetPos.setAttribute('class',shipType);
+                targetPos = targetPos.nextSibling;
+            }else if(shipAxis === 'Vertical'){
+                //console.log('im here')
+                vertArray = `${e.srcElement.id}`.split('d');
+                //console.log(vertArray);
+                vertArray[1] = +vertArray[1] +(i*10);
+                vertArray[0] += 'd';
+                vertArray = vertArray.join('');
+                //console.log(vertArray);
+                document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
+            }
         }
         //console.log(targetPos.nextSibling);
         //select the number-1 to the rigth
