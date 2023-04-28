@@ -1,7 +1,7 @@
 const { ship, gameboard } = require('./classObj');
 //import { ship, gameboard } from './classObj.js';
-/* const game1 = new ship(5);
-console.log(game1); */
+//const game1 = new ship(5);
+//console.log(game1);
 // Game Dashboard Init
 let i = 0;
 while(i<100){
@@ -21,7 +21,7 @@ while(i<100){
 }
 // DOM manipulation
 const headerBtn = document.querySelectorAll('.headBtn');
-console.log(headerBtn);
+//console.log(headerBtn);
 // ship length initialized
 let selectLength = 0;
 let shipType = undefined;
@@ -32,8 +32,8 @@ for(let i = 0; i<= headerBtn.length-1;i++){
 }
 // headerBtn event function
 function exeBtn(e){
-    console.log(e.srcElement);
-    console.log(e.srcElement.innerText);
+    //console.log(e.srcElement);
+    //console.log(e.srcElement.innerText);
     const headBtnType = e.srcElement.innerText;
     if(headBtnType === 'Vertical'){
         e.srcElement.innerText = 'Horizontal';
@@ -63,15 +63,23 @@ function exeBtn(e){
 // targetPlayer event function
 function exeTargetPlayer(e){
     //console.log(e.srcElement.id);
+    if(document.querySelectorAll(`.${shipType}`).length!=0){
+        //exit the function is a ship is already positioned, in order to avoid duplicates
+        return;
+    }
     const targetId = e.srcElement.id;
+    let targetClass = e.srcElement.className;
     let targetPos = document.querySelector(`#${targetId}`);//#06D6A0
     let vertArray = undefined;
+    let coordArray = [];// this variable will be passed into the gameboard class
     if(selectLength!=0){
         //select the number-1 to the rigth
         for(let i = 0;i<=selectLength-1;i++){
             if(shipAxis === 'Horizontal'){
                 targetPos.style.backgroundColor = '#06D6A0';
-                targetPos.setAttribute('class',shipType);
+                targetPos.setAttribute('class',targetClass+' '+shipType);
+                //console.log(targetPos.id);
+                coordArray.push(targetPos.id);
                 targetPos = targetPos.nextSibling;
             }else if(shipAxis === 'Vertical'){
                 //console.log('im here')
@@ -82,9 +90,40 @@ function exeTargetPlayer(e){
                 vertArray = vertArray.join('');
                 //console.log(vertArray);
                 document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
+                document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+shipType);
+                //console.log(document.querySelector(`#${vertArray}`).id);
+                coordArray.push(document.querySelector(`#${vertArray}`).id);
             }
         }
         //console.log(targetPos.nextSibling);
         //select the number-1 to the rigth
     }
+    // create objects from the classObj.js
+    //console.log(coordArray);
+    if(selectLength === 5){
+        carrierBoard = new gameboard(carrierShip,coordArray);
+        console.log(carrierBoard);
+    }else if(selectLength === 4){
+        battleshipBoard = new gameboard(battleshipShip,coordArray);
+        console.log(battleshipBoard);
+    }else if(selectLength === 3){
+        cruiserBoard = new gameboard(cruiserShip,coordArray);
+        console.log(cruiserBoard);
+    }else if(selectLength === 3){
+        submarineBoard = new gameboard(submarineShip,coordArray);
+        console.log(submarineBoard);
+    }else if(selectLength === 2){
+        destroyerBoard = new gameboard(destroyerShip,coordArray);
+        console.log(destroyerBoard);
+    }
 }
+const carrierShip = new ship(5);
+const battleshipShip = new ship(4);
+const cruiserShip = new ship(3);
+const submarineShip = new ship(3);
+const destroyerShip = new ship(2);
+let carrierBoard = undefined;
+let battleshipBoard = undefined;
+let cruiserBoard = undefined;
+let submarineBoard = undefined;
+let destroyerBoard = undefined;
