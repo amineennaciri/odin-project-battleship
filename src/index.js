@@ -1,6 +1,8 @@
 const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip} = require('./classObj');
 let {playerGameBoard} = require('./classObj');
 // Game Dashboard Init
+/* console.log(game1.score); */
+
 
 const boardInit = {
     i: 0,//index used in the increment function.
@@ -61,13 +63,16 @@ const headerObj = {
         }else if(headBtnType === 'Start the game'){
             //empty needs to be filled
             // below are just drills console.log
-            console.log(placeShip.shipsArray);
-            console.log(placeShip.shipsCoordsArray);
-            console.log(playerGameBoard);
-            playerGameBoard.receiveAttack('playerCoord41');
-            playerGameBoard.receiveAttack('playerCoord40');
-            console.log(playerGameBoard);
-            console.log(playerGameBoard.ship[4].isSunk());
+            if(playerGameBoard!=undefined){
+                //this condition is necessary to make sure that the player has placed all his ships on the gameboard
+                console.log(placeShip.shipsArray);
+                console.log(placeShip.shipsCoordsArray);
+                console.log(playerGameBoard);
+                playerGameBoard.receiveAttack('playerCoord41');
+                playerGameBoard.receiveAttack('playerCoord40');
+                console.log(playerGameBoard);
+                console.log(playerGameBoard.ship[4].isSunk());
+            }
         }
     }
 }
