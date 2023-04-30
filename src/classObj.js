@@ -25,37 +25,9 @@ class gameboard{
         console.log(this.ship);
     }
     receiveAttack(receiveCoord){
-        if(this.coordinates === receiveCoord){
+        if(this.coordinates.includes(receiveCoord)){
             this.ship.hit();
         }
     }
 }
-module.exports = { ship, gameboard};
-//export { ship, gameboard};
-/* 
-function Ship(length){
-    this.length = length;
-    this.hitNumber = 0;
-    this.hit = function(){
-        this.hitNumber++;
-        return this.hitNumber;
-    }
-    this.isSunk = function(){
-        if(this.length === this.hitNumber){
-            return true;
-        }else{
-            return false;
-        }
-    }
-} */
-/* 
-function Gameboard(ship,coordinates){
-    this.ship = ship;
-    this.coordinates = coordinates;
-    this.placeShip = function(){
-        console.log(this.coordinates);
-        console.log(this.ship);
-    }
-    this.receiveAttack = function(ship){
-    }
-} */
+module.exports = { ship, gameboard, game1};

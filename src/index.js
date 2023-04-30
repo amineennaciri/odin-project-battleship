@@ -1,9 +1,29 @@
-const { ship, gameboard } = require('./classObj');
+const { ship, gameboard, game1 } = require('./classObj');
 //import { ship, gameboard } from './classObj.js';
 //const game1 = new ship(5);
 //console.log(game1);
 // Game Dashboard Init
-let i = 0;
+const dashboardCreation = {
+    index: 0,
+    increment: function(){
+        while(dashboardCreation.index<100){
+            const targetPlayer = document.querySelector('.playerBoard');
+            const targetAI = document.querySelector('.AIBoard');
+            const btnPlayer = document.createElement('div');
+            const btnAI = document.createElement('div');
+            btnPlayer.setAttribute('class',`targetPlayer`);
+            btnAI.setAttribute('class',`targetAI`);
+            btnPlayer.setAttribute('id',`playerCoord${i}`);
+            btnAI.setAttribute('id',`AICoord${i}`);
+            targetPlayer.appendChild(btnPlayer);
+            targetAI.appendChild(btnAI);
+            //add event listener to targetPlayer
+            document.querySelector(`#playerCoord${i}`).addEventListener('click',targetPlayerEvent);
+            dashboardCreation.index++;
+        }
+    }
+}
+/* let i = 0;
 while(i<100){
     const targetPlayer = document.querySelector('.playerBoard');
     const targetAI = document.querySelector('.AIBoard');
@@ -16,9 +36,9 @@ while(i<100){
     targetPlayer.appendChild(btnPlayer);
     targetAI.appendChild(btnAI);
     //add event listener to targetPlayer
-    document.querySelector(`#playerCoord${i}`).addEventListener('click',exeTargetPlayer);
+    document.querySelector(`#playerCoord${i}`).addEventListener('click',targetPlayerEvent);
     i++;
-}
+} */
 // DOM manipulation
 const headerBtn = document.querySelectorAll('.headBtn');
 //console.log(headerBtn);
@@ -28,10 +48,10 @@ let shipType = undefined;
 let shipAxis = 'Horizontal';
 // adding event listeners to headerBtn
 for(let i = 0; i<= headerBtn.length-1;i++){
-    headerBtn[i].addEventListener('click',exeBtn);
+    headerBtn[i].addEventListener('click',headerBtnEvent);
 }
 // headerBtn event function
-function exeBtn(e){
+function headerBtnEvent(e){
     //console.log(e.srcElement);
     //console.log(e.srcElement.innerText);
     const headBtnType = e.srcElement.innerText;
@@ -61,7 +81,7 @@ function exeBtn(e){
     }
 }
 // targetPlayer event function
-function exeTargetPlayer(e){
+function targetPlayerEvent(e){
     //console.log(e.srcElement.id);
     if(document.querySelectorAll(`.${shipType}`).length!=0){
         //exit the function is a ship is already positioned, in order to avoid duplicates
