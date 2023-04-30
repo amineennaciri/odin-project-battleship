@@ -25,9 +25,12 @@ class gameboard{
         console.log(this.ship);
     }
     receiveAttack(receiveCoord){
-        if(this.coordinates.includes(receiveCoord)){
-            this.ship.hit();
+        for(let i=0;i<=this.coordinates.length-1;i++){
+            if(this.coordinates[i].includes(receiveCoord)){
+                this.ship[i].hit();
+            }
         }
+        
     }
 }
 
@@ -48,13 +51,9 @@ const battleshipShip = new ship(4);
 const cruiserShip = new ship(3);
 const submarineShip = new ship(3);
 const destroyerShip = new ship(2);
-let carrierBoard = undefined;
-let battleshipBoard = undefined;
-let cruiserBoard = undefined;
-let submarineBoard = undefined;
-let destroyerBoard = undefined;
+let playerGameBoard = undefined;
 
-module.exports = { ship, gameboard, addEventList, carrierShip, battleshipShip,cruiserShip, submarineShip, destroyerShip, carrierBoard, battleshipBoard, cruiserBoard, submarineBoard, destroyerBoard};
+module.exports = { ship, gameboard, addEventList, carrierShip, battleshipShip,cruiserShip, submarineShip, destroyerShip, playerGameBoard};
 
 //import { ship, gameboard } from './classObj.js';
 //const game1 = new ship(5);

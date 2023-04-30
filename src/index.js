@@ -1,5 +1,5 @@
 const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip} = require('./classObj');
-let {carrierBoard, battleshipBoard, cruiserBoard, submarineBoard, destroyerBoard} = require('./classObj');
+let {playerGameBoard} = require('./classObj');
 // Game Dashboard Init
 
 const boardInit = {
@@ -60,6 +60,14 @@ const headerObj = {
             headerObj.shipAxis = 'Horizontal';
         }else if(headBtnType === 'Start the game'){
             //empty needs to be filled
+            // below are just drills console.log
+            console.log(placeShip.shipsArray);
+            console.log(placeShip.shipsCoordsArray);
+            console.log(playerGameBoard);
+            playerGameBoard.receiveAttack('playerCoord41');
+            playerGameBoard.receiveAttack('playerCoord40');
+            console.log(playerGameBoard);
+            console.log(playerGameBoard.ship[4].isSunk());
         }
     }
 }
@@ -67,7 +75,9 @@ const headerObj = {
 
 // this is the Object that places the ships on the playerBoard
 const placeShip = {
-    coordArray : [],// this variable will be passed into the gameboard class
+    coordArray : [],// this variable will be passed into the shipsCoordsArray
+    shipsArray : [], // this is an array for ship types
+    shipsCoordsArray : [], // this variable will be passed into the gameboard class 
     targetPlayerEvent : function(e){
         placeShip.coordArray = []; // init each time to avoid passing other ships coordinates.
         if(document.querySelectorAll(`.${headerObj.shipType}`).length!=0){
@@ -105,21 +115,23 @@ const placeShip = {
         placeShip.createGameboard();
     },
     createGameboard : function(){
-        if(headerObj.selectLength === 5){
-            carrierBoard = new gameboard(carrierShip,this.coordArray);
-            console.log(carrierBoard);
-        }else if(headerObj.selectLength === 4){
-            battleshipBoard = new gameboard(battleshipShip,this.coordArray);
-            console.log(battleshipBoard);
-        }else if(headerObj.selectLength === 3){
-            cruiserBoard = new gameboard(cruiserShip,this.coordArray);
-            console.log(cruiserBoard);
-        }else if(headerObj.selectLength === 3){
-            submarineBoard = new gameboard(submarineShip,this.coordArray);
-            console.log(submarineBoard);
-        }else if(headerObj.selectLength === 2){
-            destroyerBoard = new gameboard(destroyerShip,this.coordArray);
-            console.log(destroyerBoard);
+        placeShip.shipsCoordsArray.push(placeShip.coordArray);
+        if(headerObj.shipType==='Carrier'){
+            placeShip.shipsArray.push(carrierShip);
+        }else if(headerObj.shipType==='Battleship'){
+            placeShip.shipsArray.push(battleshipShip);    
+        }else if(headerObj.shipType==='Cruiser'){
+            placeShip.shipsArray.push(cruiserShip);
+        }else if(headerObj.shipType==='Submarine'){
+            placeShip.shipsArray.push(submarineShip);
+        }else if(headerObj.shipType==='Destroyer'){
+            placeShip.shipsArray.push(destroyerShip);
+        }
+        
+
+        // create an object from gameboard class
+        if(placeShip.shipsArray.length === 5 && placeShip.shipsCoordsArray.length === 5){
+            playerGameBoard = new gameboard(placeShip.shipsArray,placeShip.shipsCoordsArray);
         }
     }
 }
@@ -127,3 +139,17 @@ const placeShip = {
 // EXECUTION
 boardInit.increment(); // init the both player and AI dashboard
 headerObj.headerBtnAddEvent(); // creates event listeners for the Header buttons.
+
+// code snipet that will help me further down the line for computer AI playMaking
+/*
+            function getComputerChoice(){
+            let randomNumber = Math.random()
+            if(randomNumber<=0.33){
+                return 'Rock'
+            }else if(randomNumber<=0.66){
+                return 'Paper'
+            }else{
+                return 'Scissors'
+            }
+        }
+*/
