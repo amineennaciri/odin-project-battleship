@@ -23,22 +23,6 @@ const dashboardCreation = {
         }
     }
 }
-/* let i = 0;
-while(i<100){
-    const targetPlayer = document.querySelector('.playerBoard');
-    const targetAI = document.querySelector('.AIBoard');
-    const btnPlayer = document.createElement('div');
-    const btnAI = document.createElement('div');
-    btnPlayer.setAttribute('class',`targetPlayer`);
-    btnAI.setAttribute('class',`targetAI`);
-    btnPlayer.setAttribute('id',`playerCoord${i}`);
-    btnAI.setAttribute('id',`AICoord${i}`);
-    targetPlayer.appendChild(btnPlayer);
-    targetAI.appendChild(btnAI);
-    //add event listener to targetPlayer
-    document.querySelector(`#playerCoord${i}`).addEventListener('click',targetPlayerEvent);
-    i++;
-} */
 // DOM manipulation
 const headerBtn = document.querySelectorAll('.headBtn');
 //console.log(headerBtn);
