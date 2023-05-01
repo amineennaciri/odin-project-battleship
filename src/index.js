@@ -1,4 +1,4 @@
-const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip} = require('./classObj');
+const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip, AIPlayer} = require('./classObj');
 let {playerGameBoard} = require('./classObj');
 // Game Dashboard Init
 /* console.log(game1.score); */
@@ -63,15 +63,20 @@ const headerObj = {
         }else if(headBtnType === 'Start the game'){
             //empty needs to be filled
             // below are just drills console.log
-            if(playerGameBoard!=undefined){
+            if(true/*playerGameBoard!=undefined*/){
                 //this condition is necessary to make sure that the player has placed all his ships on the gameboard
-                console.log(placeShip.shipsArray);
+                /* console.log(placeShip.shipsArray);
                 console.log(placeShip.shipsCoordsArray);
                 console.log(playerGameBoard);
                 playerGameBoard.receiveAttack('playerCoord41');
                 playerGameBoard.receiveAttack('playerCoord40');
                 console.log(playerGameBoard);
-                console.log(playerGameBoard.ship[4].isSunk());
+                console.log(playerGameBoard.ship[4].isSunk()); */
+
+
+                //run
+                placeAIShip.createAIGameboard();
+
             }
         }
     }
@@ -137,6 +142,30 @@ const placeShip = {
         // create an object from gameboard class
         if(placeShip.shipsArray.length === 5 && placeShip.shipsCoordsArray.length === 5){
             playerGameBoard = new gameboard(placeShip.shipsArray,placeShip.shipsCoordsArray);
+        }
+    }
+}
+// this is the Object that places the ships on the AIBoard
+const placeAIShip = {
+    createAIGameboard : function(){
+        // first determine if the 
+        console.log('hello world');
+        //testing AIPLAYER
+        AIPlayer.shipAxisAI()
+        if(AIPlayer.getShipAxisAI==='Horizontal'){
+            AIPlayer.studyAIBoard(AIPlayer.CarrierH);
+            console.log(AIPlayer.getShipAxisAI);
+            console.log(AIPlayer.fixCoordinateAIShip());
+        }else if(AIPlayer.getShipAxisAI==='Vertical'){
+            AIPlayer.studyAIBoard(AIPlayer.CarrierV);
+            console.log(AIPlayer.getShipAxisAI);
+            console.log(AIPlayer.fixCoordinateAIShip());
+        }
+        //console.log(AIPlayer);
+    },
+    targetAIBoard : function(shipAxis,shipCoordinate,shipType){
+        if(shipAxis==='Vertical'){
+            
         }
     }
 }
