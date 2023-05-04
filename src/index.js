@@ -1,5 +1,7 @@
-const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip, AIPlayer} = require('./classObj');
+const { ship, gameboard, addEventList, carrierShip,battleshipShip, cruiserShip, submarineShip, destroyerShip} = require('./classObj');
 let {playerGameBoard} = require('./classObj');
+const {shipCriteria,shipInsertion} = require('./general');
+const {AIPlayer} = require('./playerAI');
 // Game Dashboard Init
 /* console.log(game1.score); */
 
@@ -72,10 +74,10 @@ const headerObj = {
                 playerGameBoard.receiveAttack('playerCoord40');
                 console.log(playerGameBoard);
                 console.log(playerGameBoard.ship[4].isSunk()); */
-
+                console.log(playerGameBoard);
 
                 //run
-                placeAIShip.createAIGameboard();
+                //placeAIShip.createAIGameboard();
 
             }
         }
@@ -91,57 +93,40 @@ const placeShip = {
     targetPlayerEvent : function(e){
         placeShip.coordArray = []; // init each time to avoid passing other ships coordinates.
         if(document.querySelectorAll(`.${headerObj.shipType}`).length!=0){
-            //exit the function is a ship is already positioned, in order to avoid duplicates
+            //exit the function if a ship is already positioned, in order to avoid duplicates
             return;
         }
         const targetId = e.srcElement.id;
-        let vertArray = undefined; // used when shipAxis = vertical
-        let targetClass = e.srcElement.className;
-        let targetPos = document.querySelector(`#${targetId}`);
-        if(headerObj.selectLength!=0){
-            //select the number-1 to the right
-            for(let i = 0;i<=headerObj.selectLength-1;i++){
-                if(headerObj.shipAxis === 'Horizontal'){
-                    targetPos.style.backgroundColor = '#06D6A0';
-                    targetPos.setAttribute('class',targetClass+' '+headerObj.shipType);
-                    //console.log(targetPos.id);
-                    placeShip.coordArray.push(targetPos.id);
-                    targetPos = targetPos.nextSibling;
-                }else if(headerObj.shipAxis === 'Vertical'){
-                    //console.log('im here')
-                    vertArray = `${e.srcElement.id}`.split('d');
-                    //console.log(vertArray);
-                    vertArray[1] = +vertArray[1] +(i*10);
-                    vertArray[0] += 'd';
-                    vertArray = vertArray.join('');
-                    //console.log(vertArray);
-                    document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
-                    document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+headerObj.shipType);
-                    //console.log(document.querySelector(`#${vertArray}`).id);
-                    placeShip.coordArray.push(document.querySelector(`#${vertArray}`).id);
-                }
-            }
+        // check if the coordinate chosen is correct
+        if(!(shipCriteria.checkCriteria(targetId,headerObj.shipType,headerObj.shipAxis))){
+            //exit the function if the coordinate is incorrect
+            return;
         }
-        placeShip.createGameboard();
+        let vertArray = undefined; // used when shipAxis = vertical
+        const targetClass = e.srcElement.className;
+        const targetPos = document.querySelector(`#${targetId}`);
+        placeShip.coordArray = shipInsertion.getInserted(vertArray, targetClass, targetPos, headerObj.selectLength, headerObj.shipAxis, headerObj.shipType,targetId);
+        // calling the createGameboard function
+        placeShip.createGameboard(placeShip.coordArray,placeShip.shipsCoordsArray,placeShip.shipsArray,headerObj.shipType);
     },
-    createGameboard : function(){
-        placeShip.shipsCoordsArray.push(placeShip.coordArray);
-        if(headerObj.shipType==='Carrier'){
-            placeShip.shipsArray.push(carrierShip);
-        }else if(headerObj.shipType==='Battleship'){
-            placeShip.shipsArray.push(battleshipShip);    
-        }else if(headerObj.shipType==='Cruiser'){
-            placeShip.shipsArray.push(cruiserShip);
-        }else if(headerObj.shipType==='Submarine'){
-            placeShip.shipsArray.push(submarineShip);
-        }else if(headerObj.shipType==='Destroyer'){
-            placeShip.shipsArray.push(destroyerShip);
+    createGameboard : function(coordArray,shipsCoordsArray,shipsArray,shipType){
+        shipsCoordsArray.push(coordArray);
+        if(shipType==='Carrier'){
+            shipsArray.push(carrierShip);
+        }else if(shipType==='Battleship'){
+            shipsArray.push(battleshipShip);    
+        }else if(shipType==='Cruiser'){
+            shipsArray.push(cruiserShip);
+        }else if(shipType==='Submarine'){
+            shipsArray.push(submarineShip);
+        }else if(shipType==='Destroyer'){
+            shipsArray.push(destroyerShip);
         }
         
 
         // create an object from gameboard class
-        if(placeShip.shipsArray.length === 5 && placeShip.shipsCoordsArray.length === 5){
-            playerGameBoard = new gameboard(placeShip.shipsArray,placeShip.shipsCoordsArray);
+        if(shipsArray.length === 5 && shipsCoordsArray.length === 5){
+            playerGameBoard = new gameboard(shipsArray,shipsCoordsArray);
         }
     }
 }
@@ -173,17 +158,3 @@ const placeAIShip = {
 // EXECUTION
 boardInit.increment(); // init the both player and AI dashboard
 headerObj.headerBtnAddEvent(); // creates event listeners for the Header buttons.
-
-// code snipet that will help me further down the line for computer AI playMaking
-/*
-            function getComputerChoice(){
-            let randomNumber = Math.random()
-            if(randomNumber<=0.33){
-                return 'Rock'
-            }else if(randomNumber<=0.66){
-                return 'Paper'
-            }else{
-                return 'Scissors'
-            }
-        }
-*/
