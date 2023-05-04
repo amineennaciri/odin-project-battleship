@@ -105,6 +105,7 @@ const placeShip = {
         let vertArray = undefined; // used when shipAxis = vertical
         const targetClass = e.srcElement.className;
         const targetPos = document.querySelector(`#${targetId}`);
+        // calling the getInsterted function
         placeShip.coordArray = shipInsertion.getInserted(vertArray, targetClass, targetPos, headerObj.selectLength, headerObj.shipAxis, headerObj.shipType,targetId);
         // calling the createGameboard function
         placeShip.createGameboard(placeShip.coordArray,placeShip.shipsCoordsArray,placeShip.shipsArray,headerObj.shipType);
