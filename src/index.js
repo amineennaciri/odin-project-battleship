@@ -123,39 +123,13 @@ const placeShip = {
         }else if(shipType==='Destroyer'){
             shipsArray.push(destroyerShip);
         }
-        
-
         // create an object from gameboard class
         if(shipsArray.length === 5 && shipsCoordsArray.length === 5){
             playerGameBoard = new gameboard(shipsArray,shipsCoordsArray);
         }
     }
 }
-// this is the Object that places the ships on the AIBoard
-const placeAIShip = {
-    createAIGameboard : function(){
-        // first determine if the 
-        console.log('hello world');
-        //testing AIPLAYER
-        AIPlayer.shipAxisAI()
-        if(AIPlayer.getShipAxisAI==='Horizontal'){
-            AIPlayer.studyAIBoard(AIPlayer.CarrierH);
-            console.log(AIPlayer.getShipAxisAI);
-            console.log(AIPlayer.fixCoordinateAIShip());
-        }else if(AIPlayer.getShipAxisAI==='Vertical'){
-            AIPlayer.studyAIBoard(AIPlayer.CarrierV);
-            console.log(AIPlayer.getShipAxisAI);
-            console.log(AIPlayer.fixCoordinateAIShip());
-        }
-        //console.log(AIPlayer);
-    },
-    targetAIBoard : function(shipAxis,shipCoordinate,shipType){
-        if(shipAxis==='Vertical'){
-            
-        }
-    }
-}
 
-// EXECUTION
+// REQUIRED EXECUTION
 boardInit.increment(); // init the both player and AI dashboard
 headerObj.headerBtnAddEvent(); // creates event listeners for the Header buttons.

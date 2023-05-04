@@ -56,9 +56,15 @@ const submarineShip = new ship(3);
 const destroyerShip = new ship(2);
 let playerGameBoard = undefined;
 // AI ships and gameboard
-// ...
+const AIcarrierShip = new ship(5);
+const AIbattleshipShip = new ship(4);
+const AIcruiserShip = new ship(3);
+const AIsubmarineShip = new ship(3);
+const AIdestroyerShip = new ship(2);
+let AIGameBoard = undefined;
 
-module.exports = { ship, gameboard, addEventList, carrierShip, battleshipShip,cruiserShip, submarineShip, destroyerShip, playerGameBoard};
+
+module.exports = { ship, gameboard, addEventList, carrierShip, battleshipShip,cruiserShip, submarineShip, destroyerShip, playerGameBoard, AIcarrierShip, AIbattleshipShip, AIcruiserShip, AIsubmarineShip, AIdestroyerShip, AIGameBoard};
 
 // code snipet that will help me further down the line for computer AI playMaking
 /*
