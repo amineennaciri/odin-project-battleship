@@ -74,8 +74,8 @@ const headerObj = {
                 playerGameBoard.receiveAttack('playerCoord40');
                 console.log(playerGameBoard);
                 console.log(playerGameBoard.ship[4].isSunk()); */
-                console.log(playerGameBoard);
-
+                //console.log(playerGameBoard);
+                AIPlayer.GetCarrierCoord();
                 //run
                 //placeAIShip.createAIGameboard();
 
@@ -100,7 +100,8 @@ const placeShip = {
         // check if the coordinate chosen is correct
         if(!(shipCriteria.checkCriteria(targetId,headerObj.shipType,headerObj.shipAxis))){
             //exit the function if the coordinate is incorrect
-            return;
+            console.log('hello world here am I')
+            return alert('please choose another spot');
         }
         let vertArray = undefined; // used when shipAxis = vertical
         const targetClass = e.srcElement.className;

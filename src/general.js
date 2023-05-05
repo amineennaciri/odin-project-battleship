@@ -16,27 +16,27 @@ const shipCriteria = {
         coordId = +coordId.split('d')[1]; // we extract the number.
         if(shipAxe === 'Horizontal'){
             if(shipType === 'Carrier'){
-                return shipCriteria.CarrierH.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.CarrierH.includes(coordId)? true : false;
             }else if(shipType === 'Battleship'){
-                return shipCriteria.BattleshipH.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.BattleshipH.includes(coordId)? true :false;
             }else if(shipType === 'Cruiser'){
-                return shipCriteria.CruiserH.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.CruiserH.includes(coordId)? true : false;
             }else if(shipType === 'Submarine'){
-                return shipCriteria.SubmarineH.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.SubmarineH.includes(coordId)? true : false;
             }else if(shipType === 'Destroyer'){
-                return shipCriteria.DestroyerH.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.DestroyerH.includes(coordId)? true : false;
             }
         }else if(shipAxe === 'Vertical'){
             if(shipType === 'Carrier'){
-                return shipCriteria.CarrierV.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.CarrierV.includes(coordId)? true : false;
             }else if(shipType === 'Battleship'){
-                return shipCriteria.BattleshipV.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.BattleshipV.includes(coordId)? true : false;
             }else if(shipType === 'Cruiser'){
-                return shipCriteria.CruiserV.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.CruiserV.includes(coordId)? true : false;
             }else if(shipType === 'Submarine'){
-                return shipCriteria.SubmarineV.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.SubmarineV.includes(coordId)? true : false;
             }else if(shipType === 'Destroyer'){
-                return shipCriteria.DestroyerV.includes(coordId)? true : alert('please choose another spot');
+                return shipCriteria.DestroyerV.includes(coordId)? true : false;
             }
         }
     }
@@ -49,29 +49,69 @@ const shipInsertion = {
 // headerObj.shipType = shipType
 // placeShip.coordArray = coordArray
 // targetId = e.srcElement.id
+// let vertArray = undefined; // used when shipAxis = vertical
+// const targetClass = e.srcElement.className;
+// const targetPos = document.querySelector(`#${targetId}`);
+checkAvailability : function(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass){
+    console.log('were inside checkAvailability')
+    console.log(vertArray);
+    console.log(targetPos);
+    console.log(shipLength);
+    console.log(shipAxis);
+    console.log(targetId);
+    console.log(targetClass);
+    for(let i = 0;i<=shipLength-1;i++){
+        if(shipAxis === 'Horizontal'){
+            if(targetClass ==='ship placed'){
+                return false;
+            }
+            targetPos = targetPos.nextSibling;
+            console.log(targetPos);
+        }else if(shipAxis === 'Vertical'){
+            vertArray = `${targetId}`.split('d');
+            vertArray[1] = +vertArray[1] +(i*10);
+            vertArray[0] += 'd';
+            vertArray = vertArray.join('');
+            if(targetClass ==='ship placed'){
+                return false;
+            }
+        }
+    }
+},
 getInserted : function(vertArray, targetClass, targetPos, shipLength, shipAxis, shipType,targetId){
             let coordArray = [];
             if(shipLength!=0){
+                console.log('hello world 1')
+                console.log(shipInsertion.checkAvailability(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass));
+                if(shipInsertion.checkAvailability(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass)===false){
+                    //exit the function if the coordinate is already filled
+                    return alert('please choose another spot');
+                }
+                else{
                 //select the number-1 to the right
+                console.log('hello world 2')
                 for(let i = 0;i<=shipLength-1;i++){
-                    if(shipAxis === 'Horizontal'){
-                        targetPos.style.backgroundColor = '#06D6A0';
-                        targetPos.setAttribute('class',targetClass+' '+shipType);
-                        //console.log(targetPos.id);
-                        coordArray.push(targetPos.id);
-                        targetPos = targetPos.nextSibling;
-                    }else if(shipAxis === 'Vertical'){
-                        //console.log('im here')
-                        vertArray = `${targetId}`.split('d');
-                        //console.log(vertArray);
-                        vertArray[1] = +vertArray[1] +(i*10);
-                        vertArray[0] += 'd';
-                        vertArray = vertArray.join('');
-                        //console.log(vertArray);
-                        document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
-                        document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+shipType);
-                        //console.log(document.querySelector(`#${vertArray}`).id);
-                        coordArray.push(document.querySelector(`#${vertArray}`).id);
+                        if(shipAxis === 'Horizontal'){
+                            targetPos.style.backgroundColor = '#06D6A0';
+                            //targetPos.setAttribute('class',targetClass+' '+shipType);
+                            targetPos.setAttribute('class','ship placed');
+                            //console.log(targetPos.id);
+                            coordArray.push(targetPos.id);
+                            targetPos = targetPos.nextSibling;
+                        }else if(shipAxis === 'Vertical'){
+                            //console.log('im here')
+                            vertArray = `${targetId}`.split('d');
+                            //console.log(vertArray);
+                            vertArray[1] = +vertArray[1] +(i*10);
+                            vertArray[0] += 'd';
+                            vertArray = vertArray.join('');
+                            //console.log(vertArray);
+                            document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
+                            //document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+shipType);
+                            document.querySelector(`#${vertArray}`).setAttribute('class','ship placed');
+                            //console.log(document.querySelector(`#${vertArray}`).id);
+                            coordArray.push(document.querySelector(`#${vertArray}`).id);
+                        }
                     }
                 }
             }
