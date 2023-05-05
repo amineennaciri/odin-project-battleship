@@ -75,7 +75,9 @@ const headerObj = {
                 console.log(playerGameBoard);
                 console.log(playerGameBoard.ship[4].isSunk()); */
                 //console.log(playerGameBoard);
-                AIPlayer.GetCarrierCoord();
+                //AIPlayer.GetCarrierCoord();
+                AIPlayer.getCarrierCoordGeneralized('Carrier',5);
+                AIPlayer.getCarrierCoordGeneralized('Battleship',4);
                 //run
                 //placeAIShip.createAIGameboard();
 
@@ -92,22 +94,31 @@ const placeShip = {
     shipsCoordsArray : [], // this variable will be passed into the gameboard class 
     targetPlayerEvent : function(e){
         placeShip.coordArray = []; // init each time to avoid passing other ships coordinates.
+        if(headerObj.shipType === undefined){
+            console.log('I should have returned')
+            //exit the function if no ship was selected
+            return alert('please choose a ship');
+        }
         if(document.querySelectorAll(`.${headerObj.shipType}`).length!=0){
+            console.log('I should have returned')
             //exit the function if a ship is already positioned, in order to avoid duplicates
-            return;
+            return alert('please choose another ship');
         }
         const targetId = e.srcElement.id;
         // check if the coordinate chosen is correct
         if(!(shipCriteria.checkCriteria(targetId,headerObj.shipType,headerObj.shipAxis))){
             //exit the function if the coordinate is incorrect
             console.log('hello world here am I')
-            return alert('please choose another spot');
+            return alert('please choose a valid spot');
         }
         let vertArray = undefined; // used when shipAxis = vertical
         const targetClass = e.srcElement.className;
         const targetPos = document.querySelector(`#${targetId}`);
         // calling the getInsterted function
         placeShip.coordArray = shipInsertion.getInserted(vertArray, targetClass, targetPos, headerObj.selectLength, headerObj.shipAxis, headerObj.shipType,targetId);
+        if(placeShip.coordArray===false){
+            return alert('please choose another spot');
+        }
         // calling the createGameboard function
         placeShip.createGameboard(placeShip.coordArray,placeShip.shipsCoordsArray,placeShip.shipsArray,headerObj.shipType);
     },

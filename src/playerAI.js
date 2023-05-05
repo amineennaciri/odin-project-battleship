@@ -17,9 +17,11 @@ const AIPlayer = {
         const carrierAxis = AIPlayer.shipAxisAI();
         let carrierCoord = AIPlayer.getRandomNum();
         carrierCoord = `AICoord${carrierCoord}`;
-        let vertArray = []; // used when shipAxis = vertical
+        let vertArray = undefined; // used when shipAxis = vertical
         // check if coord is correct
-        if(shipCriteria.checkCriteria(carrierCoord,'Carrier',carrierAxis)){
+        console.log(carrierAxis);
+        console.log(carrierCoord);
+        if(shipCriteria.checkCriteria(carrierCoord,'Carrier',carrierAxis)===true){
             //carrierCoord = `AICoord${carrierCoord}`;
         }else{
             AIPlayer.GetCarrierCoord();
@@ -28,6 +30,29 @@ const AIPlayer = {
         const targetClass = targetPos.className;
         // insert ship in the AIgameboard
         shipInsertion.getInserted(vertArray, targetClass, targetPos, shipLength=5, shipAxis=carrierAxis, shipType='Carrier',targetId=carrierCoord);
+    },
+    getCarrierCoordGeneralized : function(shipType,shipLength){
+        // this is the getCarrierCoord generalized for all ships
+        let insertionTest = undefined;
+        const shipAxis = AIPlayer.shipAxisAI();
+        let shipCoord = AIPlayer.getRandomNum();
+        shipCoord = `AICoord${shipCoord}`;
+        let vertArray = undefined; // used when shipAxis = vertical
+        // check if coord is correct
+        console.log(shipAxis);
+        console.log(shipCoord);
+        if(shipCriteria.checkCriteria(shipCoord,shipType,shipAxis)===true){
+            //carrierCoord = `AICoord${carrierCoord}`;
+        }else{
+            AIPlayer.getCarrierCoordGeneralized(shipType,shipLength);
+        }
+        const targetPos = document.querySelector(`#${shipCoord}`);
+        const targetClass = targetPos.className;
+        // insert ship in the AIgameboard
+        insertionTest = shipInsertion.getInserted(vertArray, targetClass, targetPos, shipLength, shipAxis, shipType,shipCoord);
+        if(insertionTest === false){
+            AIPlayer.getCarrierCoordGeneralized(shipType,shipLength);
+        }
     }
 }
 
@@ -65,7 +90,7 @@ const AIPlayer = {
 module.exports = {AIPlayer};
 
 // this is the Object that places the ships on the AIBoard
-const placeAIShip = {
+/* const placeAIShip = {
     createAIGameboard : function(){
         // first determine if the 
         console.log('hello world');
@@ -87,4 +112,4 @@ const placeAIShip = {
             
         }
     }
-}
+} */

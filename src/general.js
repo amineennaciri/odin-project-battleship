@@ -52,27 +52,21 @@ const shipInsertion = {
 // let vertArray = undefined; // used when shipAxis = vertical
 // const targetClass = e.srcElement.className;
 // const targetPos = document.querySelector(`#${targetId}`);
-checkAvailability : function(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass){
-    console.log('were inside checkAvailability')
-    console.log(vertArray);
-    console.log(targetPos);
-    console.log(shipLength);
-    console.log(shipAxis);
-    console.log(targetId);
-    console.log(targetClass);
+checkAvailability : function(vertArray, targetPos, shipLength, shipAxis,targetId){
     for(let i = 0;i<=shipLength-1;i++){
         if(shipAxis === 'Horizontal'){
-            if(targetClass ==='ship placed'){
+            if(targetPos.className.includes('ship placed')){
                 return false;
             }
             targetPos = targetPos.nextSibling;
-            console.log(targetPos);
+            console.log(targetPos.className);
         }else if(shipAxis === 'Vertical'){
             vertArray = `${targetId}`.split('d');
             vertArray[1] = +vertArray[1] +(i*10);
             vertArray[0] += 'd';
             vertArray = vertArray.join('');
-            if(targetClass ==='ship placed'){
+            console.log(vertArray);
+            if(document.querySelector(`#${vertArray}`).className.includes('ship placed')){
                 return false;
             }
         }
@@ -81,35 +75,26 @@ checkAvailability : function(vertArray, targetPos, shipLength, shipAxis,targetId
 getInserted : function(vertArray, targetClass, targetPos, shipLength, shipAxis, shipType,targetId){
             let coordArray = [];
             if(shipLength!=0){
-                console.log('hello world 1')
-                console.log(shipInsertion.checkAvailability(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass));
-                if(shipInsertion.checkAvailability(vertArray, targetPos, shipLength, shipAxis,targetId,targetClass)===false){
+                if(shipInsertion.checkAvailability(vertArray, targetPos, shipLength, shipAxis,targetId)===false){
                     //exit the function if the coordinate is already filled
-                    return alert('please choose another spot');
+                    //return alert('please choose another spot');
+                    return false;
                 }
                 else{
                 //select the number-1 to the right
-                console.log('hello world 2')
                 for(let i = 0;i<=shipLength-1;i++){
                         if(shipAxis === 'Horizontal'){
                             targetPos.style.backgroundColor = '#06D6A0';
-                            //targetPos.setAttribute('class',targetClass+' '+shipType);
-                            targetPos.setAttribute('class','ship placed');
-                            //console.log(targetPos.id);
+                            targetPos.setAttribute('class',targetClass+' '+shipType+' ' +'ship placed');
                             coordArray.push(targetPos.id);
                             targetPos = targetPos.nextSibling;
                         }else if(shipAxis === 'Vertical'){
-                            //console.log('im here')
                             vertArray = `${targetId}`.split('d');
-                            //console.log(vertArray);
                             vertArray[1] = +vertArray[1] +(i*10);
                             vertArray[0] += 'd';
                             vertArray = vertArray.join('');
-                            //console.log(vertArray);
                             document.querySelector(`#${vertArray}`).style.backgroundColor = '#06D6A0';
-                            //document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+shipType);
-                            document.querySelector(`#${vertArray}`).setAttribute('class','ship placed');
-                            //console.log(document.querySelector(`#${vertArray}`).id);
+                            document.querySelector(`#${vertArray}`).setAttribute('class',targetClass+' '+shipType+' ' +'ship placed');
                             coordArray.push(document.querySelector(`#${vertArray}`).id);
                         }
                     }
